@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 
 let clients: any = [];
-const port = process.env.SERVICE_PORT;
+const port = Number(process.env.SERVICE_PORT) || 3069;
 
 const webSocketServer = new WebSocket.Server({ port }, () => {
 	console.log(`connection service listening on port ${port}`);
