@@ -1,0 +1,30 @@
+version: '2'
+services:
+    mongo:
+        image: mongo:3
+        container_name: mongo
+        command: mongod --smallfiles --bind_ip_all
+        volumes:
+            - ./data:/data/db
+        ports:
+            - "27017:27017"
+        networks:
+            - gateway
+
+    connection:
+        build: ./
+        container_name: connection
+        ports:
+            - "${SERVICE_PORT}:${SERVICE_PORT}"
+        volumes:
+            - ./:/usr/src/app
+        working_dir: /usr/src/app
+        command: sh -c 'npm install; npm run start:dev'
+        networks:
+            - gateway
+        environment:
+            DATABASE_URL: ${DATABASE_URL}
+            SERVICE_PORT: ${SERVICE_PORT}
+
+networks:
+    gateway:

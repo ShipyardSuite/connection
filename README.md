@@ -1,2 +1,2 @@
 # connection
-External connection API
+External connection API for Project connection
