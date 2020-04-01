@@ -1,24 +1,25 @@
 version: "3"
 
 services:
-    # redis:
-    #     image: redis
-    #     container_name: redis
-    #     ports:
-    #         - "6379:6379"
-    #     networks:
-    #         - gateway
 
-    # mongo:
-    #     image: mongo:3
-    #     container_name: mongo
-    #     command: mongod --smallfiles --bind_ip_all
-    #     volumes:
-    #         - ./data:/data/db
-    #     ports:
-    #         - "27017:27017"
-    #     networks:
-    #         - gateway
+    redis:
+        image: redis
+        container_name: redis
+        ports:
+            - "6379:6379"
+        networks:
+            - gateway
+
+    mongo:
+        image: mongo:3
+        container_name: mongo
+        command: mongod --smallfiles --bind_ip_all
+        volumes:
+            - ./data:/data/db
+        ports:
+            - "27017:27017"
+        networks:
+            - gateway
 
     connection:
         build:
@@ -36,6 +37,102 @@ services:
         environment:
             SERVICE_PORT: 3069
             SERVICE_NAME: connection
+
+    homepage:
+        image: shipyardsuite/homepage:develop
+        command: sh -c 'npm run start:dev'
+        container_name: homepage
+        ports:
+            - "3001:3001"
+        networks:
+            - gateway
+        environment:
+            SERVICE_NAME: homepage
+            SERVICE_PORT: 3001
+
+    auth:
+        image: shipyardsuite/auth:develop
+        command: sh -c 'npm run start:dev'
+        container_name: auth
+        ports:
+            - "3002:3002"
+        networks:
+            - gateway
+        environment:
+            SERVICE_NAME: auth
+            SERVICE_PORT: 3002
+
+    dashboard:
+        image: shipyardsuite/dashboard:develop
+        command: sh -c 'npm run start:dev'
+        container_name: dashboard
+        ports:
+            - "3004:3004"
+        networks:
+            - gateway
+        environment:
+            SERVICE_NAME: dashboard
+            SERVICE_PORT: 3004
+
+    notfound:
+        image: shipyardsuite/notfound:develop
+        command: sh -c 'npm run start:dev'
+        container_name: notfound
+        ports:
+            - "3005:3005"
+        networks:
+            - gateway
+        environment:
+            SERVICE_NAME: notfound
+            SERVICE_PORT: 3005
+
+    player:
+        image: shipyardsuite/player:develop
+        command: sh -c 'npm run start:dev'
+        container_name: player
+        ports:
+            - "3006:3006"
+        networks:
+            - gateway
+        environment:
+            SERVICE_NAME: player
+            SERVICE_PORT: 3006
+
+    project:
+        image: shipyardsuite/project:develop
+        command: sh -c 'npm run start:dev'
+        container_name: project
+        ports:
+            - "3007:3007"
+        networks:
+            - gateway
+        environment:
+            SERVICE_NAME: project
+            SERVICE_PORT: 3007
+
+    status:
+        image: shipyardsuite/status:develop
+        command: sh -c 'npm run start:dev'
+        container_name: status
+        ports:
+            - "3008:3008"
+        networks:
+            - gateway
+        environment:
+            SERVICE_NAME: status
+            SERVICE_PORT: 3008
+
+    user:
+        image: shipyardsuite/user:develop
+        command: sh -c 'npm run start:dev'
+        container_name: user
+        ports:
+            - "3009:3009"
+        networks:
+            - gateway
+        environment:
+            SERVICE_NAME: user
+            SERVICE_PORT: 3009
 
 networks:
     gateway:
