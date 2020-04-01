@@ -1,0 +1,18 @@
+FROM node:10-slim
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+ARG SERVICE_NAME_ARG=${SERVICE_NAME_ARG}
+ARG SERVICE_PORT_ARG=${SERVICE_PORT_ARG}
+
+ENV SERVICE_NAME=$SERVICE_NAME_ARG
+ENV SERVICE_PORT=$SERVICE_PORT_ARG
+
+COPY . /usr/src/app
+RUN npm install
+RUN npm test
+RUN npm run build
+
+ARG CACHEBUST=1
+CMD [ "npm", "start" ]
