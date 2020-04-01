@@ -1,25 +1,12 @@
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/shipyardsuite/connection/develop?color=3cafe2&style=flat-square)
+![Docker Image Version (latest by date)](https://img.shields.io/docker/v/shipyardsuite/connection?color=3cafe2&sort=date&style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/shipyardsuite/connection?color=3cafe2&style=flat-square)
+![Maintenance](https://img.shields.io/maintenance/yes/2020?color=3cafe2&style=flat-square)
+![GitHub](https://img.shields.io/github/license/shipyardsuite/connection?color=3cafe2&style=flat-square)
+
 # connection
 
-Shipyard Microservice
-
----
-
-## Environment variables
-
-| Name                  | Type     | Default | Description                       |
-| --------------------- | -------- | ------- | --------------------------------- |
-| **SERVICE_PORT:**     | `Number` | 3069    | Microservice port.                |
-| **DATABASE_URL:**     | `String` |         | Database url.                     |
-
-## API
-
-| Type | URL             | Body                                        | Query               | Response              | Description                                             |
-| ---- | ----------------| ------------------------------------------- | ------------------- | --------------------- | ------------------------------------------------------- |
-| GET  | `/api/status`   |                                             |                     | **online**: `boolean` | Testing service connection.                             |
-
-## Usage
-
-**LOCAL**: create a `.env` file, with the specified variables and run `docker-compose up -d --build`.
+External connection API
 
 ## License
 

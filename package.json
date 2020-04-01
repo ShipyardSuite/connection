@@ -1,12 +1,15 @@
 {
 	"name": "connection",
 	"version": "0.1.0",
-	"description": "External connection API for Project connection",
-	"main": "src/app.js",
+	"description": "",
+	"main": "server/index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "tsc -p ./src && node dist/app.js",
-		"start:dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/app.ts"
+		"start:dev": "nodemon -L server/index.js",
+		"build": "npm run docs",
+		"start": "node server/index.js",
+		"docs": "jsdoc -r ./server/*.js -d ./docs",
+		"clean": "rm -r ./docs",
+		"test": "mocha"
 	},
 	"repository": {
 		"type": "git",
@@ -14,23 +17,18 @@
 	},
 	"keywords": [],
 	"author": "Shipyard Suite <shipyardsuite@gmail.com>",
-	"license": "MIT",
+	"license": "Apache-2.0",
 	"bugs": {
 		"url": "https://github.com/ShipyardSuite/connection/issues"
 	},
+	"homepage": "https://github.com/ShipyardSuite/connection#readme",
 	"dependencies": {
-		"buffer-json": "^2.0.0",
-		"buffer-json-encoding": "^1.0.2",
-		"moment": "^2.24.0",
-		"nodemon": "^2.0.2",
-		"websocket": "^1.0.31",
-		"ws": "^7.2.3",
-		"ts-node": "^8.4.1",
-		"typescript": "^3.4.5"
+		"express": "^4.17.1"
 	},
 	"devDependencies": {
-		"@types/ws": "^7.2.3",
-		"@types/node": "^12.0.2"
-	},
-	"homepage": "https://github.com/ShipyardSuite/connection#readme"
+		"chai": "^4.2.0",
+		"jsdoc": "^3.6.3",
+		"mocha": "^7.1.1",
+		"nodemon": "^2.0.2"
+	}
 }
