@@ -4,7 +4,8 @@ const express = require('express');
 const expressWs = require('express-ws');
 const fs = require('fs');
 const mongoose = require('mongoose');
-
+const winston = require('winston');
+const Redis = require('winston-redis');
 /**
  * Main application class.
  * @class App
@@ -19,6 +20,7 @@ class App {
 		this.database = process.env.DATABASE_URL || 'mongodb://mongo:27017/db';
 		this.refreshSpeed = 30;
 		this.player = [];
+		this.logger;
 	}
 
 	/**
@@ -26,6 +28,7 @@ class App {
 	 * @method init
 	 */
 	init() {
+		this.configLogger();
 		this.config();
 		this.configDB();
 		this.apiRoutes();
@@ -43,6 +46,10 @@ class App {
 		this.app.use(require('express').json());
 	}
 
+	/**
+	 * Configure Database.
+	 * @method configDB
+	 */
 	configDB() {
 		mongoose.connect(this.database, {
 			useNewUrlParser: true,
@@ -54,13 +61,43 @@ class App {
 	}
 
 	/**
+	 * Configure Redis-Logger.
+	 * @method configLogger
+	 */
+	configLogger() {
+		/**
+		 * @todo Add Logger to all services
+		 * @body Currently the Logger only works in the connection service, this configuration should be copied to all nodejs based service.
+		 */
+		this.logger = winston.createLogger({
+			format: winston.format.timestamp(),
+			transports: [
+				new winston.transports.Console({
+					format: winston.format.combine(
+						winston.format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss a' }),
+						winston.format.colorize(),
+						winston.format.simple(),
+						winston.format.printf((info) => `${info.timestamp} - ${info.level}: ${info.message}`)
+					)
+				}),
+				new Redis({
+					host: 'redis',
+					port: 6379,
+					container: 'logs',
+					expire: 7 * 24 * 60 * 60
+				})
+			]
+		});
+	}
+
+	/**
 	 * Read API routes from /api/directory, if more than 1 route exists.
 	 * @method apiRoutes
 	 */
 	apiRoutes() {
 		fs.readdirSync(__dirname + '/api/').forEach((file, i, allRoutes) => {
 			if (allRoutes.length > 0) {
-				require(`./api/${file.substr(0, file.indexOf('.'))}`)(this.app, this.serviceName);
+				require(`./api/${file.substr(0, file.indexOf('.'))}`)(this.app, this.logger, this.serviceName);
 			}
 		});
 	}
@@ -96,10 +133,11 @@ class App {
 	 */
 	start() {
 		this.app.listen(this.servicePort, () => {
-			console.log(
-				`Service "${this.serviceName}" listening on port ${this.servicePort} - http://localhost:${this
-					.servicePort}/${this.serviceName}/`
-			);
+			this.logger.log({
+				level: 'info',
+				message: `Service "${this.serviceName}" listening on port ${this.servicePort}`,
+				reason: 'starting server'
+			});
 		});
 	}
 }
