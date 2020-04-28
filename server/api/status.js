@@ -8,7 +8,6 @@ module.exports = (app, logger, serviceName) => {
 			logger.log({
 				level: 'info',
 				message: `Hello from service "${serviceName}"`,
-				reason: 'check status',
 				status: res.statusCode
 			})
 		);

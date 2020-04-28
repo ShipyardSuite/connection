@@ -71,13 +71,16 @@ class App {
 		 */
 		this.logger = winston.createLogger({
 			format: winston.format.timestamp(),
+			defaultMeta: { service: process.env.SERVICE_NAME },
 			transports: [
 				new winston.transports.Console({
 					format: winston.format.combine(
 						winston.format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss a' }),
 						winston.format.colorize(),
 						winston.format.simple(),
-						winston.format.printf((info) => `${info.timestamp} - ${info.level}: ${info.message}`)
+						winston.format.printf(
+							(info) => `${info.timestamp} | ${info.level} | ${info.service} | ${info.message}`
+						)
 					)
 				}),
 				new Redis({
@@ -135,8 +138,7 @@ class App {
 		this.app.listen(this.servicePort, () => {
 			this.logger.log({
 				level: 'info',
-				message: `Service "${this.serviceName}" listening on port ${this.servicePort}`,
-				reason: 'starting server'
+				message: `Service "${this.serviceName}" listening on port ${this.servicePort}`
 			});
 		});
 	}

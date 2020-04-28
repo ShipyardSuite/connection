@@ -26,7 +26,6 @@ module.exports = (app, logger, serviceName) => {
 						logger.log({
 							level: 'info',
 							message: `Player successfully connected to project "${project.title}"`,
-							reason: 'project by token',
 							ip: req.ip
 						});
 						return res.json({
