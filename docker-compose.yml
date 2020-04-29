@@ -74,18 +74,6 @@ services:
             SERVICE_NAME: dashboard
             SERVICE_PORT: 3004
 
-    notfound:
-        image: shipyardsuite/notfound:develop
-        command: sh -c 'npm run start:dev'
-        container_name: notfound
-        ports:
-            - "3005:3005"
-        networks:
-            - gateway
-        environment:
-            SERVICE_NAME: notfound
-            SERVICE_PORT: 3005
-
     player:
         image: shipyardsuite/player:develop
         command: sh -c 'npm run start:dev'
