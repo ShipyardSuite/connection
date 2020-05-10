@@ -12,6 +12,8 @@ const PlayerSchema = new mongoose.Schema({
 	 * @body This element needs to be added to the PlayerSchema of the player-service.
 	 */
 	data: { type: Object, default: {} }
+	//inventories
+	//characters
 });
 
 module.exports = mongoose.model('Player', PlayerSchema);

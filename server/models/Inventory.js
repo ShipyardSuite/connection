@@ -2,11 +2,11 @@
 
 const mongoose = require('mongoose');
 
-const CharacterSchema = new mongoose.Schema({
-	name: { type: String, required: true },
+const InventorySchema = new mongoose.Schema({
+	title: { type: String, required: true },
 	created: { type: Date, default: Date.now() },
 	updated: { type: Date, default: Date.now() }
 	//inventories
 });
 
-module.exports = mongoose.model('Character', CharacterSchema);
+module.exports = mongoose.model('Inventory', InventorySchema);
